@@ -1,0 +1,147 @@
+.container {
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.header {
+    max-width: 1200px;
+    margin: 0 auto var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.backButton:hover {
+    background: var(--color-bg-card);
+    transform: translateX(-4px);
+}
+
+.title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.routeSection {
+    animation: slideIn var(--transition-base) ease-out;
+}
+
+.confidenceMessage {
+    text-align: center;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-accent-green);
+    padding: var(--spacing-lg);
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.checkmark {
+    font-size: var(--font-size-2xl);
+    background: var(--color-accent-green);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.stepSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.audioSection {
+    animation: fadeIn var(--transition-slow) ease-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-md);
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .navigation {
+        grid-template-columns: 1fr;
+    }
+
+    .confidenceMessage {
+        font-size: var(--font-size-lg);
+        flex-direction: column;
+    }
+}
+
+.replayButton {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.replayButton:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-text-primary);
+}

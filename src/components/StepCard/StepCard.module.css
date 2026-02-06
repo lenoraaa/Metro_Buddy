@@ -1,0 +1,173 @@
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    animation: fadeIn var(--transition-base) ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0.8;
+}
+
+.lineBlue::before {
+    background: var(--color-line-blue);
+}
+
+.lineRed::before {
+    background: var(--color-line-red);
+}
+
+.lineGreen::before {
+    background: var(--color-line-green);
+}
+
+.lineYellow::before {
+    background: var(--color-line-yellow);
+}
+
+.linePurple::before {
+    background: var(--color-line-purple);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stepLabel {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) 0;
+}
+
+.icon {
+    font-size: 5rem;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.instructionContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.instruction {
+    font-size: var(--font-size-3xl);
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    max-width: 600px;
+}
+
+.progressBar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: var(--spacing-lg);
+        min-height: 350px;
+    }
+
+    .instruction {
+        font-size: var(--font-size-2xl);
+    }
+
+    .icon {
+        font-size: 4rem;
+    }
+}
+
+.stepType {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.visualCue {
+    background: rgba(255, 255, 0, 0.1);
+    /* High contrast yellow tint */
+    border: 1px solid rgba(255, 255, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    gap: 0.5rem;
+    font-size: var(--font-size-lg);
+    color: var(--text-main);
+    animation: pulse 3s infinite;
+}
+
+.metaGrid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.metaBadge {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    min-width: 100px;
+}
+
+.metaLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.metaValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}

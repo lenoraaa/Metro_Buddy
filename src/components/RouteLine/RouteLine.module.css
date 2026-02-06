@@ -1,0 +1,181 @@
+.container {
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.lineBadge {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: var(--shadow-sm);
+}
+
+.lineBlue {
+    background: var(--color-line-blue);
+}
+
+.lineRed {
+    background: var(--color-line-red);
+}
+
+.lineGreen {
+    background: var(--color-line-green);
+}
+
+.lineYellow {
+    background: var(--color-line-yellow);
+}
+
+.linePurple {
+    background: var(--color-line-purple);
+}
+
+.stopCount {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.routeVisualization {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: var(--spacing-lg) 0;
+}
+
+.station {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    z-index: 2;
+}
+
+.dot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: var(--color-bg-secondary);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.start {
+    background: var(--gradient-blue);
+    border-color: var(--color-accent-blue);
+}
+
+.transfer {
+    background: var(--gradient-primary);
+    border-color: var(--color-accent-purple);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.end {
+    background: var(--gradient-primary);
+    border-color: var(--color-accent-green);
+}
+
+.stationName {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    max-width: 200px;
+}
+
+.line {
+    width: 6px;
+    height: 80px;
+    position: relative;
+    margin: -4px 0;
+}
+
+.lineInner {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-full);
+    position: relative;
+    overflow: hidden;
+}
+
+.lineBlue .lineInner {
+    background: var(--color-line-blue);
+}
+
+.lineRed .lineInner {
+    background: var(--color-line-red);
+}
+
+.lineGreen .lineInner {
+    background: var(--color-line-green);
+}
+
+.lineYellow .lineInner {
+    background: var(--color-line-yellow);
+}
+
+.linePurple .lineInner {
+    background: var(--color-line-purple);
+}
+
+.lineInner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+
+    .dot {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .line {
+        height: 60px;
+    }
+}

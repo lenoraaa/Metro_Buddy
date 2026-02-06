@@ -1,0 +1,213 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+}
+
+.form {
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.label {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.icon {
+    font-size: var(--font-size-2xl);
+}
+
+.select {
+    font-family: var(--font-family);
+    font-size: var(--font-size-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    min-height: 56px;
+    width: 100%;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.locationButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--color-accent-green);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.25rem;
+}
+
+.locationButton:hover:not(:disabled) {
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.locationButton:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.arrow {
+    display: flex;
+    justify-content: center;
+    color: var(--color-accent-blue);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.demoNote {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-md);
+}
+
+.demoNote p:first-child {
+    font-weight: 600;
+    color: var(--color-accent-purple);
+    margin-bottom: var(--spacing-xs);
+}
+
+.demoText {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+
+    .title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .subtitle {
+        font-size: var(--font-size-lg);
+    }
+
+    .form {
+        padding: var(--spacing-lg);
+    }
+
+    .ticketGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Ticket Assistant Redesign */
+.ticketSection {
+    margin-top: var(--spacing-2xl);
+    animation: slideUp var(--transition-base) ease-out;
+}
+
+.ticketGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.ticketButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl);
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.ticketButton:hover {
+    transform: translateY(-5px);
+    background: var(--color-bg-card);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-lg);
+}
+
+.ticketEmoji {
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+.ticketLabel {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    text-align: center;
+}
+
+.ticketDesc {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+.scanButton {
+    border-bottom: 4px solid #3b82f6;
+}
+
+.buyButton {
+    border-bottom: 4px solid #10b981;
+}

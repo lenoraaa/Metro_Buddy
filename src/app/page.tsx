@@ -1,66 +1,98 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import InputScreen from '@/components/InputScreen/InputScreen';
+import RouteDisplay from '@/components/RouteDisplay/RouteDisplay';
+import { getRouteData } from '@/services/ai-service';
+import { RouteData } from '@/types/route';
+import styles from './page.module.css';
+
+function HomeContent() {
+  const [routeData, setRouteData] = useState<RouteData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const start = searchParams.get('start');
+    const dest = searchParams.get('dest');
+    if (start && dest) {
+      handleRouteRequest(start, dest);
+    }
+  }, [searchParams]);
+
+  const handleRouteRequest = async (startStation: string, destinationStation: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await getRouteData({
+        start_station: startStation,
+        destination_station: destinationStation
+      });
+
+      if (data) {
+        setRouteData(data);
+      } else {
+        setError('I am not sure. Please ask a station staff member.');
+      }
+    } catch (err) {
+      setError('I am not sure. Please ask a station staff member.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    setRouteData(null);
+    setError(null);
+  };
+
+  if (loading) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Finding your route...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.error}>
+          <span className={styles.errorIcon}>⚠️</span>
+          <h2>{error}</h2>
+          <button onClick={handleBack} className={styles.errorButton}>
+            Try Again
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  if (routeData) {
+    return (
+      <main className={styles.main}>
+        <RouteDisplay routeData={routeData} onBack={handleBack} />
+      </main>
+    );
+  }
+
+  return (
+    <main className={styles.main}>
+      <InputScreen onSubmit={handleRouteRequest} />
+    </main>
+  );
+}
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
