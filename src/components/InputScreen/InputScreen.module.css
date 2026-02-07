@@ -43,12 +43,14 @@
 }
 
 .label {
-    font-size: var(--font-size-lg);
-    font-weight: 500;
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
     color: var(--color-text-primary);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-xs);
 }
 
 .icon {
@@ -67,6 +69,27 @@
     transition: all var(--transition-base);
     min-height: 56px;
     width: 100%;
+}
+
+.voiceFirstWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.selectSecondary {
+    flex: 1;
+    opacity: 0.6;
+    transition: opacity var(--transition-base);
+}
+
+.selectSecondary:hover,
+.selectSecondary:focus-within {
+    opacity: 1;
 }
 
 .inputWrapper {

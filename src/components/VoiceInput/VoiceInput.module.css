@@ -1,16 +1,21 @@
 .micButton {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border: none;
     border-radius: 50%;
-    width: 42px;
-    height: 42px;
+    width: 64px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-main);
+    color: white;
     cursor: pointer;
-    transition: all 0.2s;
-    margin-left: 0.5rem;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.micButton svg {
+    width: 32px;
+    height: 32px;
 }
 
 .micButton:hover {

@@ -24,11 +24,17 @@ export default function RouteDisplay({ routeData, onBack }: RouteDisplayProps) {
 
     // Auto-play audio when step changes
     useEffect(() => {
+        let textToSpeak = '';
         if (hasSmartSteps) {
-            const textToSpeak = smartSteps[currentStep].audio_text;
+            textToSpeak = smartSteps[currentStep].audio_text;
+        } else if (routeData.steps && routeData.steps[currentStep]) {
+            textToSpeak = routeData.steps[currentStep];
+        }
+
+        if (textToSpeak) {
             speak(textToSpeak);
         }
-    }, [currentStep, hasSmartSteps, smartSteps]);
+    }, [currentStep, hasSmartSteps, smartSteps, routeData.steps]);
 
     const speak = (text: string) => {
         if (typeof window !== 'undefined') {
@@ -62,8 +68,15 @@ export default function RouteDisplay({ routeData, onBack }: RouteDisplayProps) {
     };
 
     const handleReplay = () => {
+        let textToSpeak = '';
         if (hasSmartSteps) {
-            speak(smartSteps[currentStep].audio_text);
+            textToSpeak = smartSteps[currentStep].audio_text;
+        } else if (routeData.steps && routeData.steps[currentStep]) {
+            textToSpeak = routeData.steps[currentStep];
+        }
+
+        if (textToSpeak) {
+            speak(textToSpeak);
         }
     };
 

@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 import { Camera, RefreshCw, ShoppingCart, ArrowLeft, Loader2, Scan } from 'lucide-react';
 import Link from 'next/link';
 import VoiceInput from '@/components/VoiceInput/VoiceInput';
-import { analyzeImage } from '@/services/ai-service';
+import { analyzeImage, getDemoStations } from '@/services/ai-service';
 import DigitalTicket from '@/components/Ticketing/DigitalTicket';
 import styles from './TicketingPage.module.css';
 
@@ -32,19 +32,12 @@ export default function TicketingPage() {
         }
     }, []);
 
-    const destinations = [
-        { name: 'Park Street', price: '$2.00' },
-        { name: 'Airport', price: '$5.00' },
-        { name: 'Riverside', price: '$3.50' },
-    ];
+    const stations = getDemoStations();
 
     const mapVoiceToStation = (text: string) => {
         const lower = text.toLowerCase();
-        if (lower.includes('park')) return 'Park Street';
-        if (lower.includes('airport')) return 'Airport';
-        if (lower.includes('river')) return 'Riverside';
-        if (lower.includes('central')) return 'Central';
-        return null;
+        const matched = stations.find(s => lower.includes(s.name.toLowerCase()));
+        return matched ? matched.name : null;
     };
 
     const captureAndAnalyze = useCallback(async () => {
@@ -102,7 +95,7 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
             <DigitalTicket
                 startStation={startStation}
                 destination={selectedDestination}
-                cost={destinations.find(d => d.name === selectedDestination)?.price || '$2.00'}
+                cost="$2.00"
                 onClose={() => {
                     setShowTicket(false);
                     setMode(null);
@@ -171,8 +164,8 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                         value={startStation}
                                         onChange={(e) => setStartStation(e.target.value)}
                                     >
-                                        {['Central', 'Park Street', 'Riverside', 'Station X', 'Airport'].map(s => (
-                                            <option key={s} value={s}>{s}</option>
+                                        {stations.map(s => (
+                                            <option key={s.id} value={s.name}>{s.name}</option>
                                         ))}
                                     </select>
                                     <div className={styles.voiceBtn}>
@@ -193,13 +186,18 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                         onChange={(e) => setSelectedDestination(e.target.value)}
                                     >
                                         <option value="">Select Destination...</option>
-                                        {destinations.map(d => (
-                                            <option key={d.name} value={d.name}>{d.name} ({d.price})</option>
-                                        ))}
+                                        {stations
+                                            .filter(s => s.name !== startStation)
+                                            .map(s => (
+                                                <option key={s.id} value={s.name}>{s.name} ($2.00)</option>
+                                            ))}
                                     </select>
                                     <div className={styles.voiceBtn}>
                                         <VoiceInput onSpeechResult={(text) => {
-                                            const matched = destinations.find(d => text.toLowerCase().includes(d.name.toLowerCase()));
+                                            const lowerText = text.toLowerCase();
+                                            const matched = stations
+                                                .filter(s => s.name !== startStation)
+                                                .find(s => lowerText.includes(s.name.toLowerCase()));
                                             if (matched) setSelectedDestination(matched.name);
                                         }} />
                                     </div>

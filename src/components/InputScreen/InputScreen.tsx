@@ -243,25 +243,27 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
                 {/* ... Keep inputs ... */}
                 <div className={styles.inputGroup}>
                     <label htmlFor="start" className={styles.label}>
-                        <span className={styles.icon}>🚉</span>
-                        Where are you now?
+                        <span className={styles.icon}>📍</span>
+                        FROM
                     </label>
-                    <div className={styles.inputWrapper}>
-                        <select
-                            id="start"
-                            value={startStation}
-                            onChange={(e) => setStartStation(e.target.value)}
-                            className={styles.select}
-                            required
-                        >
-                            <option value="">Select your station</option>
-                            {stations.map((station) => (
-                                <option key={station.id} value={station.name}>
-                                    {station.name} {station.landmark}
-                                </option>
-                            ))}
-                        </select>
+                    <div className={styles.voiceFirstWrapper}>
                         <VoiceInput onSpeechResult={(text) => handleVoiceInput(text, 'start')} />
+                        <div className={styles.selectSecondary}>
+                            <select
+                                id="start"
+                                value={startStation}
+                                onChange={(e) => setStartStation(e.target.value)}
+                                className={styles.select}
+                                required
+                            >
+                                <option value="">Select your station</option>
+                                {stations.map((station) => (
+                                    <option key={station.id} value={station.name}>
+                                        {station.name} {station.landmark}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                     <button
                         type="button"
@@ -281,24 +283,26 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
                 <div className={styles.inputGroup}>
                     <label htmlFor="destination" className={styles.label}>
                         <span className={styles.icon}>🏁</span>
-                        Where do you want to go?
+                        TO
                     </label>
-                    <div className={styles.inputWrapper}>
-                        <select
-                            id="destination"
-                            value={destinationStation}
-                            onChange={(e) => setDestinationStation(e.target.value)}
-                            className={styles.select}
-                            required
-                        >
-                            <option value="">Select your destination</option>
-                            {stations.map((station) => (
-                                <option key={station.id} value={station.name}>
-                                    {station.name} {station.landmark}
-                                </option>
-                            ))}
-                        </select>
+                    <div className={styles.voiceFirstWrapper}>
                         <VoiceInput onSpeechResult={(text) => handleVoiceInput(text, 'destination')} />
+                        <div className={styles.selectSecondary}>
+                            <select
+                                id="destination"
+                                value={destinationStation}
+                                onChange={(e) => setDestinationStation(e.target.value)}
+                                className={styles.select}
+                                required
+                            >
+                                <option value="">Select your destination</option>
+                                {stations.map((station) => (
+                                    <option key={station.id} value={station.name}>
+                                        {station.name} {station.landmark}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
 
