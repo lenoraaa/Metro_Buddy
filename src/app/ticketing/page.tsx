@@ -90,12 +90,22 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
         return <div className={styles.container}>Loading...</div>;
     }
 
+    const calculatePrice = (from: string, to: string) => {
+        const fromIdx = stations.findIndex(s => s.name === from);
+        const toIdx = stations.findIndex(s => s.name === to);
+        if (fromIdx === -1 || toIdx === -1) return "$2.00";
+
+        const distance = Math.abs(fromIdx - toIdx);
+        const price = 1.50 + (distance * 0.50);
+        return `$${price.toFixed(2)}`;
+    };
+
     if (showTicket && selectedDestination) {
         return (
             <DigitalTicket
                 startStation={startStation}
                 destination={selectedDestination}
-                cost="$2.00"
+                cost={calculatePrice(startStation, selectedDestination)}
                 onClose={() => {
                     setShowTicket(false);
                     setMode(null);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { QrCode, Clock, MapPin } from 'lucide-react';
+import { QrCode, Clock, MapPin, Scan, ArrowRight } from 'lucide-react';
 
 interface DigitalTicketProps {
     startStation: string;
@@ -13,53 +13,66 @@ export default function DigitalTicket({ startStation, destination, cost, onClose
     const date = new Date().toLocaleDateString();
 
     return (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-            <div className="bg-white text-black w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl">
-                {/* Header */}
-                <div className="bg-[#0057e7] p-6 text-white text-center relative">
-                    <h2 className="text-2xl font-bold mb-1">Single Journey</h2>
-                    <p className="opacity-90">Valid for 2 hours</p>
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-red-500 to-purple-500"></div>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
+            <div className="bg-white text-black w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl flex flex-col items-center">
+                {/* Header Card */}
+                <div className="bg-gradient-to-br from-[#0057e7] to-[#003da5] w-full p-8 text-white text-center flex flex-col items-center gap-2">
+                    <div className="bg-white/20 p-2 rounded-full mb-2">
+                        <Scan className="w-8 h-8 text-white" />
+                    </div>
+                    <h2 className="text-3xl font-black tracking-tight uppercase">Single Journey</h2>
+                    <div className="flex items-center gap-2 text-white/80 font-medium">
+                        <Clock className="w-4 h-4" />
+                        <span>Valid for 2 hours</span>
+                    </div>
                 </div>
 
-                {/* Ticket Details */}
-                <div className="p-6 space-y-6">
-                    <div className="flex justify-between items-center text-lg">
-                        <div className="flex flex-col">
-                            <span className="text-gray-500 text-sm mb-1">FROM</span>
-                            <span className="font-bold flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-[#0057e7]" />
-                                {startStation}
-                            </span>
+                {/* Main Body */}
+                <div className="p-8 w-full space-y-8 flex flex-col items-center">
+
+                    {/* Journey Stats */}
+                    <div className="flex w-full justify-between items-center relative py-2">
+                        <div className="flex flex-col items-center gap-1 z-10 bg-white px-2">
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">From</span>
+                            <span className="text-xl font-black text-slate-800">{startStation}</span>
                         </div>
-                        <div className="text-gray-300">➜</div>
-                        <div className="flex flex-col items-end">
-                            <span className="text-gray-500 text-sm mb-1">TO</span>
-                            <span className="font-bold flex items-center gap-2">
-                                {destination}
-                                <MapPin className="w-4 h-4 text-[#d62d20]" />
-                            </span>
+
+                        {/* Connecting Line */}
+                        <div className="absolute top-1/2 left-0 w-full h-[2px] bg-slate-100 -z-0"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2">
+                            <ArrowRight className="text-slate-300 w-5 h-5" />
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1 z-10 bg-white px-2">
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">To</span>
+                            <span className="text-xl font-black text-blue-600">{destination}</span>
                         </div>
                     </div>
 
-                    {/* QR Code */}
-                    <div className="bg-gray-100 p-6 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300">
-                        <QrCode className="w-48 h-48 text-black opacity-90" strokeWidth={1.5} />
-                        <p className="text-gray-500 text-sm mt-3 font-mono tracking-widest">SCAN AT GATE</p>
+                    {/* QR Code Container */}
+                    <div className="w-full flex flex-col items-center gap-4 py-4 bg-slate-50 rounded-[40px] border border-slate-100">
+                        <div className="p-4 bg-white rounded-3xl shadow-sm">
+                            <QrCode className="w-40 h-40 text-slate-900" strokeWidth={1} />
+                        </div>
+                        <div className="text-center">
+                            <p className="text-[10px] font-black tracking-[0.3em] text-slate-300 uppercase">Scan at Entry Gate</p>
+                            <div className="flex items-center justify-center gap-4 mt-2">
+                                <span className="text-sm font-bold text-slate-500">{timestamp}</span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                                <span className="text-sm font-bold text-slate-500">{date}</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Footer Info */}
-                    <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl">
-                        <div className="flex items-center gap-2 text-gray-600">
-                            <Clock className="w-5 h-5" />
-                            <span className="font-medium">{timestamp}</span>
-                        </div>
-                        <div className="text-xl font-bold text-[#008744]">{cost}</div>
+                    {/* Price Tag */}
+                    <div className="flex flex-col items-center gap-1">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Fare</span>
+                        <span className="text-4xl font-black text-slate-900">{cost}</span>
                     </div>
 
                     <button
                         onClick={onClose}
-                        className="w-full bg-black text-white p-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors"
+                        className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-slate-800 active:scale-95 transition-all shadow-xl shadow-slate-200"
                     >
                         Close Ticket
                     </button>
