@@ -6,7 +6,7 @@ import { ArrowRight, MapPin, Ticket } from 'lucide-react';
 import BigButton from '@/components/BigButton/BigButton';
 import VoiceInput from '@/components/VoiceInput/VoiceInput';
 import AudioAnimation from '@/components/AudioAnimation/AudioAnimation';
-import { getDemoStations } from '@/services/ai-service';
+import { getDemoStations, parseIntent } from '@/services/ai-service';
 import styles from './InputScreen.module.css';
 
 interface InputScreenProps {
@@ -71,23 +71,35 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
         }
     };
 
-    const handleVoiceInput = (text: string, field: 'start' | 'destination') => {
-        // ... existing logic ...
-        // (Keep existing voice logic, but maybe trigger confirm if destination?)
-        const lowerText = text.toLowerCase();
-        const match = stations.find(s =>
-            lowerText.includes(s.name.toLowerCase()) ||
-            s.name.toLowerCase().includes(lowerText)
-        );
+    const handleVoiceInput = async (text: string, field: 'start' | 'destination') => {
+        setIsSpeaking(true); // Show animation while AI thinks
 
-        if (match) {
-            if (field === 'start') setStartStation(match.name);
-            else {
-                setDestinationStation(match.name);
-                // Optional: Auto-trigger confirm? For now let user click 'Get Route'
+        try {
+            const intent = await parseIntent(text);
+
+            if (intent) {
+                if (intent.start) setStartStation(intent.start);
+                if (intent.destination) setDestinationStation(intent.destination);
+
+                // If the user just said a station name and didn't specify start/dest
+                // we use the 'field' hint as a fallback
+                if (!intent.start && !intent.destination) {
+                    // Fallback to basic match if AI fails to find structure
+                    const lowerText = text.toLowerCase();
+                    const match = stations.find(s =>
+                        lowerText.includes(s.name.toLowerCase()) ||
+                        s.name.toLowerCase().includes(lowerText)
+                    );
+                    if (match) {
+                        if (field === 'start') setStartStation(match.name);
+                        else setDestinationStation(match.name);
+                    }
+                }
             }
-        } else {
-            alert(`Could not find a station matching "${text}".`);
+        } catch (error) {
+            console.error("Voice intent parsing error", error);
+        } finally {
+            setIsSpeaking(false);
         }
     };
 
@@ -340,9 +352,9 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
 
             {/* ... Demo note ... */}
             <div className={styles.demoNote}>
-                <p>✨ AI Features Active</p>
+                <p>✨ Gemini AI Active</p>
                 <p className={styles.demoText}>
-                    Tip: Say "Central" or click "Use my current location"
+                    Try: "Take me to the Airport" or "I am at Park Street"
                 </p>
             </div>
 
