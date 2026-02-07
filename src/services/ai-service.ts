@@ -367,43 +367,39 @@ const STATIONS = [
  * Parse natural language intent using Gemini
  */
 export async function parseIntent(text: string): Promise<{ start?: string; destination?: string } | null> {
-    if (!genAI) return null;
+    if (!genAI) {
+        console.warn("Gemini API not available for intent parsing");
+        return null;
+    }
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        // Use gemini-1.5-flash for reliability and speed
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const stationsList = STATIONS.map(s => s.name).join(', ');
 
         const prompt = `
-            You are a helpful Metro Assistant for people with dyslexia.
-            The user said: "${text}"
+            You are a Metro Assistant.
+            User said: "${text}"
+            Stations: ${stationsList}
             
-            Available stations: ${stationsList}
-            
-            Identify the START station and the DESTINATION station from the user's text.
-            
-            Return ONLY a valid JSON object:
+            Return JSON ONLY:
             {
-                "start": "Station Name" or null,
-                "destination": "Station Name" or null
+                "start": "Matched Station Name" or null,
+                "destination": "Matched Station Name" or null
             }
-            
-            Rules:
-            1. If they say "I am at [Station]" or "I'm starting at [Station]", set "start".
-            2. If they say "Take me to [Station]" or "Go to [Station]" or "destination is [Station]", set "destination".
-            3. If they just say a station name like "Airport", assume it is the station they are looking for (either start or destination depending on context, but here just set both if unclear or the most likely one).
-            4. If they say "Help me get from [A] to [B]", set both correctly.
         `;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
         let jsonText = response.text().trim();
 
-        // Clean markdown JSON blocks
-        if (jsonText.startsWith('```')) {
-            jsonText = jsonText.replace(/^```json\s*|```\s*$/g, '');
+        // Robust JSON extraction
+        const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            return JSON.parse(jsonMatch[0]);
         }
 
-        return JSON.parse(jsonText);
+        return null;
     } catch (error) {
         console.error("Intent parsing failed:", error);
         return null;

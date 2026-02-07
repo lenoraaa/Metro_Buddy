@@ -7,6 +7,7 @@ import Link from 'next/link';
 import VoiceInput from '@/components/VoiceInput/VoiceInput';
 import { analyzeImage, getDemoStations, parseIntent } from '@/services/ai-service';
 import DigitalTicket from '@/components/Ticketing/DigitalTicket';
+import AudioAnimation from '@/components/AudioAnimation/AudioAnimation';
 import styles from './TicketingPage.module.css';
 
 export default function TicketingPage() {
@@ -16,6 +17,7 @@ export default function TicketingPage() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [visionResult, setVisionResult] = useState<string | null>(null);
     const [showTicket, setShowTicket] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     // Online Ticket State
     const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
@@ -180,16 +182,28 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                     </select>
                                     <div className={styles.voiceBtn}>
                                         <VoiceInput onSpeechResult={async (text) => {
-                                            const intent = await parseIntent(text);
-                                            if (intent) {
-                                                if (intent.start) setStartStation(intent.start);
-                                                if (intent.destination) setSelectedDestination(intent.destination);
+                                            setIsSpeaking(true);
+                                            try {
+                                                const intent = await parseIntent(text);
+                                                let handled = false;
 
-                                                // Fallback if no structured intent
-                                                if (!intent.start && !intent.destination) {
+                                                if (intent) {
+                                                    if (intent.start) {
+                                                        setStartStation(intent.start);
+                                                        handled = true;
+                                                    }
+                                                    if (intent.destination) {
+                                                        setSelectedDestination(intent.destination);
+                                                        handled = true;
+                                                    }
+                                                }
+
+                                                if (!handled) {
                                                     const matched = mapVoiceToStation(text);
                                                     if (matched) setStartStation(matched);
                                                 }
+                                            } finally {
+                                                setIsSpeaking(false);
                                             }
                                         }} />
                                     </div>
@@ -218,16 +232,28 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                     </select>
                                     <div className={styles.voiceBtn}>
                                         <VoiceInput onSpeechResult={async (text) => {
-                                            const intent = await parseIntent(text);
-                                            if (intent) {
-                                                if (intent.start) setStartStation(intent.start);
-                                                if (intent.destination) setSelectedDestination(intent.destination);
+                                            setIsSpeaking(true);
+                                            try {
+                                                const intent = await parseIntent(text);
+                                                let handled = false;
 
-                                                // Fallback if no structured intent
-                                                if (!intent.start && !intent.destination) {
+                                                if (intent) {
+                                                    if (intent.start) {
+                                                        setStartStation(intent.start);
+                                                        handled = true;
+                                                    }
+                                                    if (intent.destination) {
+                                                        setSelectedDestination(intent.destination);
+                                                        handled = true;
+                                                    }
+                                                }
+
+                                                if (!handled) {
                                                     const matched = mapVoiceToStation(text);
                                                     if (matched) setSelectedDestination(matched);
                                                 }
+                                            } finally {
+                                                setIsSpeaking(false);
                                             }
                                         }} />
                                     </div>
@@ -284,6 +310,7 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                     </div>
                 )}
             </main>
+            <AudioAnimation isPlaying={isSpeaking} />
         </div>
     );
 }

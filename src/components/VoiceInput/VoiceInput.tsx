@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff } from 'lucide-react';
 import styles from './VoiceInput.module.css';
 
@@ -12,6 +12,12 @@ interface VoiceInputProps {
 export default function VoiceInput({ onSpeechResult, placeholder = "Tap to speak" }: VoiceInputProps) {
     const [isListening, setIsListening] = useState(false);
     const [recognition, setRecognition] = useState<any>(null);
+    const callbackRef = useRef(onSpeechResult);
+
+    // Keep the ref updated with the latest callback
+    useEffect(() => {
+        callbackRef.current = onSpeechResult;
+    }, [onSpeechResult]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -27,13 +33,14 @@ export default function VoiceInput({ onSpeechResult, placeholder = "Tap to speak
                 reco.onresult = (event: any) => {
                     const transcript = event.results[0][0].transcript;
                     console.log('Voice Input:', transcript);
-                    onSpeechResult(transcript);
+                    callbackRef.current(transcript); // Use the ref here
                 };
 
                 setRecognition(reco);
             }
         }
-    }, [onSpeechResult]);
+        // removing onSpeechResult from deps makes this only run once
+    }, []);
 
     const toggleListening = () => {
         if (!recognition) {

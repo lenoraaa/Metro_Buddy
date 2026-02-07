@@ -72,35 +72,41 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
     };
 
     const handleVoiceInput = async (text: string, field: 'start' | 'destination') => {
-        setIsSpeaking(true); // Show animation while AI thinks
+        setIsSpeaking(true);
+        let handled = false;
 
         try {
             const intent = await parseIntent(text);
-
             if (intent) {
-                if (intent.start) setStartStation(intent.start);
-                if (intent.destination) setDestinationStation(intent.destination);
-
-                // If the user just said a station name and didn't specify start/dest
-                // we use the 'field' hint as a fallback
-                if (!intent.start && !intent.destination) {
-                    // Fallback to basic match if AI fails to find structure
-                    const lowerText = text.toLowerCase();
-                    const match = stations.find(s =>
-                        lowerText.includes(s.name.toLowerCase()) ||
-                        s.name.toLowerCase().includes(lowerText)
-                    );
-                    if (match) {
-                        if (field === 'start') setStartStation(match.name);
-                        else setDestinationStation(match.name);
-                    }
+                if (intent.start) {
+                    setStartStation(intent.start);
+                    handled = true;
+                }
+                if (intent.destination) {
+                    setDestinationStation(intent.destination);
+                    handled = true;
                 }
             }
         } catch (error) {
             console.error("Voice intent parsing error", error);
-        } finally {
-            setIsSpeaking(false);
         }
+
+        // Fallback to basic keyword match if AI didn't catch specific stations
+        if (!handled) {
+            const lowerText = text.toLowerCase();
+            const match = stations.find(s =>
+                lowerText.includes(s.name.toLowerCase()) ||
+                s.name.toLowerCase().includes(lowerText)
+            );
+
+            if (match) {
+                if (field === 'start') setStartStation(match.name);
+                else setDestinationStation(match.name);
+                handled = true;
+            }
+        }
+
+        setIsSpeaking(false);
     };
 
     // ... existing geolocation ...
