@@ -199,7 +199,9 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                         {stations
                                             .filter(s => s.name !== startStation)
                                             .map(s => (
-                                                <option key={s.id} value={s.name}>{s.name} ($2.00)</option>
+                                                <option key={s.id} value={s.name}>
+                                                    {s.name} ({calculatePrice(startStation, s.name)})
+                                                </option>
                                             ))}
                                     </select>
                                     <div className={styles.voiceBtn}>
