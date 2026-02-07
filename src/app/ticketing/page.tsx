@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 import { Camera, RefreshCw, ShoppingCart, ArrowLeft, Loader2, Scan } from 'lucide-react';
 import Link from 'next/link';
 import VoiceInput from '@/components/VoiceInput/VoiceInput';
-import { analyzeImage, getDemoStations } from '@/services/ai-service';
+import { analyzeImage, getDemoStations, parseIntent } from '@/services/ai-service';
 import DigitalTicket from '@/components/Ticketing/DigitalTicket';
 import styles from './TicketingPage.module.css';
 
@@ -179,7 +179,19 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                         ))}
                                     </select>
                                     <div className={styles.voiceBtn}>
-                                        <VoiceInput onSpeechResult={(text) => setStartStation(mapVoiceToStation(text) || text)} />
+                                        <VoiceInput onSpeechResult={async (text) => {
+                                            const intent = await parseIntent(text);
+                                            if (intent) {
+                                                if (intent.start) setStartStation(intent.start);
+                                                if (intent.destination) setSelectedDestination(intent.destination);
+
+                                                // Fallback if no structured intent
+                                                if (!intent.start && !intent.destination) {
+                                                    const matched = mapVoiceToStation(text);
+                                                    if (matched) setStartStation(matched);
+                                                }
+                                            }
+                                        }} />
                                     </div>
                                 </div>
                             </div>
@@ -205,12 +217,18 @@ Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. T
                                             ))}
                                     </select>
                                     <div className={styles.voiceBtn}>
-                                        <VoiceInput onSpeechResult={(text) => {
-                                            const lowerText = text.toLowerCase();
-                                            const matched = stations
-                                                .filter(s => s.name !== startStation)
-                                                .find(s => lowerText.includes(s.name.toLowerCase()));
-                                            if (matched) setSelectedDestination(matched.name);
+                                        <VoiceInput onSpeechResult={async (text) => {
+                                            const intent = await parseIntent(text);
+                                            if (intent) {
+                                                if (intent.start) setStartStation(intent.start);
+                                                if (intent.destination) setSelectedDestination(intent.destination);
+
+                                                // Fallback if no structured intent
+                                                if (!intent.start && !intent.destination) {
+                                                    const matched = mapVoiceToStation(text);
+                                                    if (matched) setSelectedDestination(matched);
+                                                }
+                                            }
                                         }} />
                                     </div>
                                 </div>
