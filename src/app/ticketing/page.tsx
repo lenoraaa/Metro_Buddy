@@ -51,17 +51,22 @@ export default function TicketingPage() {
         try {
             const imageSrc = webcamRef.current.getScreenshot();
             if (imageSrc) {
-                const prompt = `You are helping a DYSLEXIC user who CANNOT READ EASILY. 
-Look at this ticket machine screen.
+                const prompt = `You are an AI assistant for a DYSLEXIC commuter.
+Look at this Metro Ticket Machine screen.
 
-CRITICAL INSTRUCTIONS:
-1. If you see a LIST OF DESTINATIONS or STATION NAMES, read them out ONE BY ONE with their position number.
-   Format: "Number 1: [Station Name]. Number 2: [Station Name]." etc.
-2. If you see BUTTONS (like Green/Blue/Confirm), say which button to press.
-3. Use SIMPLE words. NO complex sentences.
-4. Be CLEAR and SLOW-PACED in your description.
+TASK:
+1. Identify all STATION NAMES or DESTINATIONS visible.
+2. List them clearly as "Number 1: [Name]", "Number 2: [Name]", etc.
+3. If there is a price next to the station, include it: "Number 1: [Name], [Price]".
+4. Look for helpful buttons (Confirm, Buy, Next) and describe their color/position.
+5. Keep sentences extremely short. Use reassuring, calm language.
 
-Example: "Number 1: Central Station. Number 2: Airport. Number 3: Park Street. Then press the green Confirm button."`;
+DO NOT:
+- Read out fine print, terms, or small metadata.
+- Use complex train terminology.
+- Mention technical errors.
+
+Example Output: "Number 1: Central Station, 2 dollars. Number 2: Airport, 5 dollars. Press the big BLUE button at the bottom to confirm."`;
                 const result = await analyzeImage(imageSrc, prompt);
                 setVisionResult(result);
             }
