@@ -105,8 +105,18 @@
 }
 
 @media (max-width: 768px) {
-    font-size: 4rem;
-}
+    .card {
+        padding: var(--spacing-md);
+        min-height: 300px;
+    }
+
+    .instruction {
+        font-size: var(--font-size-2xl);
+    }
+
+    .icon {
+        font-size: 4rem;
+    }
 }
 
 .stepType {
