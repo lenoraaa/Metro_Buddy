@@ -53,7 +53,7 @@ export default function DyslexiaSettings() {
         localStorage.setItem('dyslexia-settings', JSON.stringify(newSettings));
     };
 
-    const updateSetting = (key: keyof typeof settings, value: any) => {
+    const updateSetting = (key: keyof typeof settings, value: string | boolean | number) => {
         const newSettings = { ...settings, [key]: value };
         setSettings(newSettings);
         applySettings(newSettings);

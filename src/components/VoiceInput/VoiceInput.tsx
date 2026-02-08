@@ -11,7 +11,7 @@ interface VoiceInputProps {
 
 export default function VoiceInput({ onSpeechResult, placeholder = "Tap to speak" }: VoiceInputProps) {
     const [isListening, setIsListening] = useState(false);
-    const [recognition, setRecognition] = useState<any>(null);
+    const [recognition, setRecognition] = useState<any | null>(null);
     const callbackRef = useRef(onSpeechResult);
 
     // Keep the ref updated with the latest callback
@@ -21,7 +21,7 @@ export default function VoiceInput({ onSpeechResult, placeholder = "Tap to speak
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
             if (SpeechRecognition) {
                 const reco = new SpeechRecognition();
                 reco.continuous = false;
@@ -30,7 +30,7 @@ export default function VoiceInput({ onSpeechResult, placeholder = "Tap to speak
 
                 reco.onstart = () => setIsListening(true);
                 reco.onend = () => setIsListening(false);
-                reco.onresult = (event: any) => {
+                reco.onresult = (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => {
                     const transcript = event.results[0][0].transcript;
                     console.log('Voice Input:', transcript);
                     callbackRef.current(transcript); // Use the ref here
