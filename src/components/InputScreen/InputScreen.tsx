@@ -247,12 +247,11 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
             )}
 
             <div className={styles.header}>
-                {/* ... Keep header ... */}
                 <h1 className={styles.title}>
-                    <span className="gradient-text">Metro Route</span> Assistant
+                    <span className="gradient-text">Metro</span> Buddy
                 </h1>
                 <p className={styles.subtitle}>
-                    Simple guidance for your journey
+                    Your simple travel companion
                 </p>
             </div>
 
@@ -338,31 +337,35 @@ export default function InputScreen({ onSubmit }: InputScreenProps) {
 
             <div className={styles.ticketSection}>
                 <div className={styles.ticketGrid}>
-                    <Link href="/ticketing?mode=vision" className={`${styles.ticketButton} ${styles.scanButton}`}>
+                    <button
+                        onClick={() => {
+                            if (typeof window !== 'undefined') {
+                                const utterance = new SpeechSynthesisUtterance("Point your camera to the ticket machine");
+                                utterance.rate = 0.9;
+                                window.speechSynthesis.speak(utterance);
+                            }
+                            window.location.href = "/ticketing?mode=vision";
+                        }}
+                        className={`${styles.ticketButton} ${styles.scanButton}`}
+                    >
                         <span className={styles.ticketEmoji}>📸</span>
                         <div className="flex flex-col items-center">
-                            <span className={styles.ticketLabel}>Scan Machine</span>
-                            <span className={styles.ticketDesc}>Use camera at station</span>
+                            <span className={styles.ticketLabel}>AI SCAN</span>
+                            <span className={styles.ticketDesc}>Point camera at machine</span>
                         </div>
-                    </Link>
+                    </button>
 
                     <Link href="/ticketing?mode=online" className={`${styles.ticketButton} ${styles.buyButton}`}>
                         <span className={styles.ticketEmoji}>🛒</span>
                         <div className="flex flex-col items-center">
-                            <span className={styles.ticketLabel}>Buy Online</span>
-                            <span className={styles.ticketDesc}>Get digital ticket now</span>
+                            <span className={styles.ticketLabel}>BUY ticket</span>
+                            <span className={styles.ticketDesc}>Skip the lines</span>
                         </div>
                     </Link>
                 </div>
             </div>
 
-            {/* ... Demo note ... */}
-            <div className={styles.demoNote}>
-                <p>✨ Gemini AI Active</p>
-                <p className={styles.demoText}>
-                    Try: "Take me to the Airport" or "I am at Park Street"
-                </p>
-            </div>
+            {/* ... Demo note removed ... */}
 
             {/* Audio Animation */}
             <AudioAnimation isPlaying={isSpeaking} />

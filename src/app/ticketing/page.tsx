@@ -145,13 +145,23 @@ Example Output: "Number 1: Central Station, 2 dollars. Number 2: Airport, 5 doll
                             <div className={styles.divider}></div>
                         </div>
 
-                        <button onClick={() => setMode('vision')} className={styles.visionBtn}>
-                            <div className={styles.iconWrapper}>
+                        <button
+                            onClick={() => {
+                                setMode('vision');
+                                if (typeof window !== 'undefined') {
+                                    const utterance = new SpeechSynthesisUtterance("Point your camera to the ticket machine");
+                                    utterance.rate = 0.9;
+                                    window.speechSynthesis.speak(utterance);
+                                }
+                            }}
+                            className={styles.visionBtn}
+                        >
+                            <div className={styles.iconCircle}>
                                 <Scan size={32} />
                             </div>
                             <div className={styles.btnText}>
-                                <span className={styles.btnTitle}>Help Me Buy</span>
-                                <span className={styles.btnSubtitle}>Point camera at machine screen</span>
+                                <span className={styles.btnTitle}>AI SCAN</span>
+                                <span className={styles.btnSubtitle}>Point camera at machine</span>
                             </div>
                         </button>
 
@@ -271,7 +281,7 @@ Example Output: "Number 1: Central Station, 2 dollars. Number 2: Airport, 5 doll
                                 className={styles.submitBtn}
                             >
                                 <ShoppingCart size={24} />
-                                BUY TICKET NOW
+                                BUY ticket
                             </button>
 
                             <center>
