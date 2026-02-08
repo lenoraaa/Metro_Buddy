@@ -1,23 +1,23 @@
-export { };
-
 declare global {
     interface Window {
         SpeechRecognition: any;
         webkitSpeechRecognition: any;
     }
-}
 
-interface SpeechRecognitionErrorEvent extends Event {
-    error: string;
-    message: string;
-}
+    interface SpeechRecognitionErrorEvent extends Event {
+        error: string;
+        message: string;
+    }
 
-interface SpeechRecognitionEvent extends Event {
-    results: {
-        [key: number]: {
+    interface SpeechRecognitionEvent extends Event {
+        results: {
             [key: number]: {
-                transcript: string;
+                [key: number]: {
+                    transcript: string;
+                };
             };
         };
-    };
+    }
 }
+
+export { };
