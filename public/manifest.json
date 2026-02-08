@@ -1,0 +1,16 @@
+{
+  "name": "Metro Buddy",
+  "short_name": "Metro Buddy",
+  "description": "Your simple travel companion for the metro.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/file.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
