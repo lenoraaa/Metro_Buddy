@@ -61,10 +61,12 @@ TASK:
 4. Look for helpful buttons (Confirm, Buy, Next) and describe their color/position.
 5. Keep sentences extremely short. Use reassuring, calm language.
 
-DO NOT:
-- Read out fine print, terms, or small metadata.
-- Use complex train terminology.
-- Mention technical errors.
+CRITICAL RULES:
+- DO NOT use ANY special characters like asterisks (*) or underscores (_).
+- DO NOT use bolding or markdown formatting.
+- DO NOT read out fine print, terms, or small metadata.
+- DO NOT use complex train terminology.
+- DO NOT mention technical errors.
 
 Example Output: "Number 1: Central Station, 2 dollars. Number 2: Airport, 5 dollars. Press the big BLUE button at the bottom to confirm."`;
                 const result = await analyzeImage(imageSrc, prompt);
@@ -82,7 +84,9 @@ Example Output: "Number 1: Central Station, 2 dollars. Number 2: Airport, 5 doll
     useEffect(() => {
         if (visionResult && typeof window !== 'undefined') {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(visionResult);
+            // Cleanse text of asterisks and other symbols that might be read out loud
+            const cleanText = visionResult.replace(/[*_#]/g, '');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.rate = 0.85; // Slower for clarity
             window.speechSynthesis.speak(utterance);
         }

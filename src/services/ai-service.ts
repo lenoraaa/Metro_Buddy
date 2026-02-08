@@ -298,8 +298,8 @@ export async function analyzeImage(imageBase64: string, prompt: string): Promise
     }
 
     try {
-        // Use gemini-2.5-flash for vision
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        // Use gemini-flash-lite-latest for high quota and stable performance
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
         console.log('[analyzeImage] Model created successfully');
 
         // Remove header from base64 if present
@@ -373,8 +373,8 @@ export async function parseIntent(text: string): Promise<{ start?: string; desti
     }
 
     try {
-        // Use gemini-2.5-flash for reliability and speed
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        // Use gemini-flash-lite-latest for consistency and higher quota
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
         const stationsList = STATIONS.map(s => s.name).join(', ');
 
         const prompt = `
