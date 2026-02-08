@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# utility scripts with sensitive keys
+test-direct-api.js
+debug-api.js
+list-models.js
+test-api-key.js
+lint_results.txt
+lint_full_results.txt
+lint.json
+files.txt
+git_files.txt
+tree_eaa.txt
