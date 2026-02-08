@@ -4,7 +4,7 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-xl);
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-xl);
     box-shadow: var(--shadow-lg);
     min-height: 400px;
     display: flex;
@@ -105,18 +105,17 @@
 }
 
 @media (max-width: 768px) {
-    .card {
-        padding: var(--spacing-lg);
-        min-height: 350px;
-    }
+    padding: var(--spacing-md);
+    min-height: 300px;
+}
 
-    .instruction {
-        font-size: var(--font-size-2xl);
-    }
+.instruction {
+    font-size: var(--font-size-2xl);
+}
 
-    .icon {
-        font-size: 4rem;
-    }
+.icon {
+    font-size: 4rem;
+}
 }
 
 .stepType {

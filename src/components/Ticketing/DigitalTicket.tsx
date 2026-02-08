@@ -29,12 +29,14 @@ export default function DigitalTicket({ startStation, destination, cost, onClose
                 backgroundColor: '#ffffff',
                 color: '#000000',
                 width: '100%',
-                maxWidth: '400px',
-                borderRadius: '40px',
+                maxWidth: 'min(400px, 95vw)',
+                borderRadius: 'min(40px, 8vw)',
                 overflow: 'hidden',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.3)',
                 display: 'flex',
                 flexDirection: 'column',
+                maxHeight: '90vh',
+                overflowY: 'auto',
                 animation: 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
                 {/* Visual Header */}

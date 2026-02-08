@@ -66,7 +66,7 @@
 }
 
 .title {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -196,9 +196,22 @@
     letter-spacing: -0.02em;
 }
 
-.onlineBtnSubtitle {
-    font-size: var(--font-size-base);
-    opacity: 0.8;
+@media (max-width: 480px) {
+    .main {
+        padding: var(--spacing-md);
+    }
+
+    .onlineBtn {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .onlineBtnTitle {
+        font-size: var(--font-size-xl);
+    }
+
+    .emojiWrapper {
+        font-size: 3rem;
+    }
 }
 
 .formContainer {

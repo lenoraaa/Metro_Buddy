@@ -11,14 +11,14 @@
 }
 
 .title {
-    font-size: var(--font-size-4xl);
+    font-size: var(--font-size-3xl);
     font-weight: 700;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     line-height: 1.2;
 }
 
 .subtitle {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
     font-weight: 400;
 }
@@ -157,11 +157,11 @@
     }
 
     .title {
-        font-size: var(--font-size-3xl);
+        font-size: var(--font-size-2xl);
     }
 
     .subtitle {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-base);
     }
 
     .form {

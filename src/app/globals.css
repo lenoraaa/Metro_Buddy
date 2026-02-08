@@ -61,8 +61,8 @@
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
-  --font-size-4xl: 2.5rem;
+  --font-size-3xl: clamp(1.75rem, 5vw, 2rem);
+  --font-size-4xl: clamp(2rem, 8vw, 2.5rem);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -110,6 +110,21 @@
 
 html {
   font-size: var(--base-font-size);
+}
+
+@media (max-width: 380px) {
+  :root {
+    --base-font-size: 14px;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
+  }
+}
+
+@media (max-width: 320px) {
+  :root {
+    --base-font-size: 13px;
+    --spacing-lg: 1rem;
+  }
 }
 
 html,
